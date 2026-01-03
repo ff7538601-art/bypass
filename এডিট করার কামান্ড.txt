@@ -1,0 +1,40 @@
+cd /sdcard/'Rifat-Movie-Codding-File'/; \
+ffmpeg -y \
+-i /storage/emulated/0/Rifat-Movie-Codding-File/input/v.mp4 \
+-i blocker.mp4 \
+-i myvideo.mp4 \
+-filter_complex "\
+[0:v]scale=854x480,setsar=1:1,\
+drawtext=fontfile=/system/fonts/NotoSansBengali-Regular.ttf:\
+textfile=/storage/emulated/0/Mobile-Serial-Codding-File/sub.txt:\
+reload=1:fontcolor=white:fontsize=26:\
+borderw=2:bordercolor=black:line_spacing=6:\
+x=(w-text_w)/2:y=h-text_h-20:\
+enable='lt(mod(t,60),10)'[vmain]; \
+
+[1:v]scale=854x480,setsar=1:1,\
+drawtext=fontfile=/system/fonts/NotoSansBengali-Regular.ttf:\
+text='movie upload sikhte jojajog kotun-\n01806-803773':\
+fontcolor=yellow:fontsize=28:borderw=3:bordercolor=black:\
+line_spacing=8:x=(w-text_w)/2:y=(h-text_h)/2[vblock1]; \
+
+[1:v]scale=854x480,setsar=1:1,\
+drawtext=fontfile=/system/fonts/NotoSansBengali-Regular.ttf:\
+text='movie upload sikhte jojajog kotun-\call
+01806-803773':\
+fontcolor=yellow:fontsize=28:borderw=3:bordercolor=black:\
+line_spacing=8:x=(w-text_w)/2:y=(h-text_h)/2[vblock2]; \
+
+[2:v]scale=854x480,setsar=1:1[vgam]; \
+
+[0:a]atempo=1,volume=+8dB,highpass=f=300,lowpass=f=700[a1]; \
+amovie=bg2.mp4:loop=9999,volume=0.8,apad[a2]; \
+[a1][a2]amix=duration=longest:normalize=0[amain]; \
+
+[vblock1][1:a][vmain][amain][vblock2][1:a][vgam][2:a]concat=n=4:v=1:a=1 \
+" \
+-c:v libx264 -preset ultrafast -tune fastdecode \
+-pix_fmt yuv420p -r 30 -g 60 -b:v 1200k \
+-c:a aac -b:a 96k -ar 44100 \
+-threads 4 \
+/storage/emulated/0/Rifat-Movie-Codding-File/output/'Final Full Screen FAST Rifat Movie Edit Pro.mp4'
